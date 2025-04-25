@@ -1,34 +1,22 @@
-import { constants } from "node:fs"
-import { access, appendFile } from "node:fs/promises"
+import { join } from "node:path"
+import { appendFile } from "node:fs/promises"
 
-const isFileExist = async (path) => {
-  let isExist = false
+import { isExist } from "../utils/isExist.js"
 
-  try {
-    await access(path, constants.F_OK)
-    isExist = true
-  } catch {
-    isExist = false
-  }
-
-  return isExist
-}
-
-const create = async (title, data) => {
-  const path = `./files/${title}`
+const create = async (fileTitle, data) => {
+  const filePath = join("files", fileTitle)
 
   try {
-    const isExist = await isFileExist(path)
+    const isFileExist = await isExist(filePath)
+    if (isFileExist) throw new Error("FS operation failed")
 
-    if (isExist) throw new Error("FS operation failed")
-
-    appendFile(path, data)
+    appendFile(filePath, data)
   } catch (error) {
     console.error(error)
   }
 }
 
-const title = "fresh.txt"
+const fileTitle = "fresh.txt"
 const data = "I am fresh and young"
 
-await create(title, data)
+await create(fileTitle, data)
