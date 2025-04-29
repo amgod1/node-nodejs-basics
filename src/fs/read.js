@@ -1,10 +1,13 @@
 import { join } from "node:path"
+import { fileURLToPath } from "node:url"
 import { readFile } from "node:fs/promises"
 
 import { isExist } from "../utils/isExist.js"
 
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+
 const read = async (fileName) => {
-  const filePath = join("files", fileName)
+  const filePath = join(dirname, "files", fileName)
 
   try {
     const isFileExist = await isExist(filePath)

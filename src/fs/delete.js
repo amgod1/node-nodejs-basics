@@ -1,10 +1,13 @@
 import { join } from "node:path"
+import { fileURLToPath } from "node:url"
 import { unlink } from "node:fs/promises"
 
 import { isExist } from "../utils/isExist.js"
 
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+
 const remove = async (fileNameToRemove) => {
-  const removePath = join("files", fileNameToRemove)
+  const removePath = join(dirname, "files", fileNameToRemove)
 
   try {
     const isFileExist = await isExist(removePath)

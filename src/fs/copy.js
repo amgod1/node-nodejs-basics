@@ -1,20 +1,26 @@
 import { join } from "node:path"
+import { fileURLToPath } from "node:url"
 import { readdir, mkdir, copyFile } from "node:fs/promises"
 
 import { isExist } from "../utils/isExist.js"
 
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+
 const copy = async (fromPath, toPath) => {
   try {
-    const isFolderExist = await isExist(toPath)
+    const isFolderExist = await isExist(join(dirname, toPath))
+
     if (isFolderExist) throw new Error("FS operation failed")
 
-    await mkdir(toPath)
+    if (!isFolderExist) {
+      await mkdir(join(dirname, toPath), { recursive: true })
+    }
 
-    const files = await readdir(fromPath)
+    const files = await readdir(join(dirname, fromPath))
 
     for (const file of files) {
-      const srcPath = join(fromPath, file)
-      const destPath = join(toPath, file)
+      const srcPath = join(dirname, fromPath, file)
+      const destPath = join(dirname, toPath, file)
 
       await copyFile(srcPath, destPath)
     }

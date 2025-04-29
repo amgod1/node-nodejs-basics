@@ -1,11 +1,20 @@
 const parseArgs = (args) => {
   const parsedArgs = args
     .slice(2, args.length)
-    .split(" --")
-    .map((pair) => pair.replace(" ", " is "))
+    .map((arg, index, array) => {
+      if (arg.startsWith("--")) {
+        const value = array[index + 1]
+        if (value && !value.startsWith("--")) {
+          return `${arg.replace("--", "")} is ${value}`
+        }
+        return `${arg.replace("--", "")} is undefined`
+      }
+      return null
+    })
+    .filter(Boolean)
     .join(", ")
+
   console.log(parsedArgs)
 }
 
-const args = "--propName value --prop2Name value2"
-parseArgs(args)
+parseArgs(process.argv)

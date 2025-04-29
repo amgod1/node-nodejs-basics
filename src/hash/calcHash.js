@@ -1,4 +1,5 @@
 import { join } from "node:path"
+import { fileURLToPath } from "node:url"
 import { createHash } from "node:crypto"
 import { createReadStream } from "node:fs"
 
@@ -24,4 +25,6 @@ const calculateHash = async (filePath) => {
   })
 }
 
-await calculateHash(join("files", "fileToCalculateHashFor.txt"))
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+const filePath = join(dirname, "files", "fileToCalculateHashFor.txt")
+await calculateHash(filePath)
