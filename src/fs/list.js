@@ -2,11 +2,9 @@ import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { readdir } from "node:fs/promises"
 
-const dirname = fileURLToPath(new URL(".", import.meta.url))
-
-const list = async (path) => {
+const list = async (filesPath) => {
   try {
-    const files = await readdir(join(dirname, path))
+    const files = await readdir(filesPath)
 
     if (!files.length) throw new Error("FS operation failed")
 
@@ -17,5 +15,8 @@ const list = async (path) => {
   }
 }
 
-const path = "./files"
-await list(path)
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+
+const filesPath = join(dirname, "./files")
+
+await list(filesPath)

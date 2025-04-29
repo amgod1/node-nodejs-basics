@@ -4,11 +4,7 @@ import { appendFile } from "node:fs/promises"
 
 import { isExist } from "../utils/isExist.js"
 
-const dirname = fileURLToPath(new URL(".", import.meta.url))
-
-const create = async (fileTitle, data) => {
-  const filePath = join(dirname, "files", fileTitle)
-
+const create = async (filePath, data) => {
   try {
     const isFileExist = await isExist(filePath)
     if (isFileExist) throw new Error("FS operation failed")
@@ -19,7 +15,9 @@ const create = async (fileTitle, data) => {
   }
 }
 
-const fileTitle = "fresh.txt"
+const dirname = fileURLToPath(new URL(".", import.meta.url))
+
+const filePath = join(dirname, "files", "fresh.txt")
 const data = "I am fresh and young"
 
-await create(fileTitle, data)
+await create(filePath, data)

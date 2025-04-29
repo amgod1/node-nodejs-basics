@@ -6,9 +6,7 @@ import { isExist } from "../utils/isExist.js"
 
 const dirname = fileURLToPath(new URL(".", import.meta.url))
 
-const read = async (fileName) => {
-  const filePath = join(dirname, "files", fileName)
-
+const read = async (filePath) => {
   try {
     const isFileExist = await isExist(filePath)
     if (!isFileExist) throw new Error("FS operation failed")
@@ -22,5 +20,5 @@ const read = async (fileName) => {
   }
 }
 
-const fileName = "fileToRead.txt"
-await read(fileName)
+const filePath = join(dirname, "files", "fileToRead.txt")
+await read(filePath)

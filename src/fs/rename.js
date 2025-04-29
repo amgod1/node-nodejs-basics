@@ -6,10 +6,7 @@ import { isExist } from "../utils/isExist.js"
 
 const dirname = fileURLToPath(new URL(".", import.meta.url))
 
-const rename = async (fromFileName, toFileName) => {
-  const fromPath = join(dirname, "files", fromFileName)
-  const toPath = join(dirname, "files", toFileName)
-
+const rename = async (fromPath, toPath) => {
   try {
     const isFromExist = await isExist(fromPath)
     const isToExist = await isExist(toPath)
@@ -22,6 +19,7 @@ const rename = async (fromFileName, toFileName) => {
   }
 }
 
-const fromFileName = "wrongFilename.txt"
-const toFileName = "properFilename.md"
-await rename(fromFileName, toFileName)
+const fromPath = join(dirname, "files", "wrongFilename.txt")
+const toPath = join(dirname, "files", "properFilename.md")
+
+await rename(fromPath, toPath)
